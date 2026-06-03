@@ -303,14 +303,10 @@ fn run_service(
                                     return;
                                 };
 
-                                match param_type {
-                                    ParamType::Props => {
-                                        if let Some(props) = NodeProps::from_pod(pod) {
-                                            state.borrow_mut().set_node_props(node_id, props);
-                                        }
-                                    }
-
-                                    _ => (),
+                                if param_type == ParamType::Props
+                                    && let Some(props) = NodeProps::from_pod(pod)
+                                {
+                                    state.borrow_mut().set_node_props(node_id, props);
                                 }
                             }
                         })

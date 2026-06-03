@@ -21,7 +21,7 @@ pub fn active_conns_subscription<I: 'static + Hash + Copy + Send + Sync + Debug>
     id: I,
     conn: Connection,
 ) -> iced_futures::Subscription<Event> {
-    Subscription::run_with(Wrapper { id, conn: conn }, |Wrapper { id: _id, conn }| {
+    Subscription::run_with(Wrapper { id, conn }, |Wrapper { id: _id, conn }| {
         let conn = conn.clone();
         stream::channel(50, move |output| async move {
             watch(conn, output).await;

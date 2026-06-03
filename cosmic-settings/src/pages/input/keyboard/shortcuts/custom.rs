@@ -301,14 +301,12 @@ impl Page {
             // libcosmic requires we set on_tab() and manually process here
             // otherwise it'll consume the tab key event for navigation
             Message::TabPressed => {
-                if self.add_shortcut.editing.is_some() && self.add_shortcut.active {
+                if let Some(editing_idx) = self.add_shortcut.editing
+                    && self.add_shortcut.active
+                {
                     self.add_shortcut.binding.key = Some(xkeysym::Keysym::Tab);
                     self.add_shortcut.binding.keycode = Some(0);
-                    if let Some(k) = self
-                        .add_shortcut
-                        .keys
-                        .get_mut(self.add_shortcut.editing.unwrap())
-                    {
+                    if let Some(k) = self.add_shortcut.keys.get_mut(editing_idx) {
                         k.0 = self.add_shortcut.binding.to_string();
                     }
                     return self.update(Message::KeyReleased(
